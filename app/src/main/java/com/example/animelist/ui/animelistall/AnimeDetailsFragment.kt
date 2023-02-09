@@ -23,13 +23,20 @@ class AnimeDetailsFragment : Fragment(R.layout.fragment_anime_details) {
         _binding = FragmentAnimeDetailsBinding.bind(view)
         viewModel.setAnimeDetailsById(args.animeId)
         binding.apply {
+            retryBtn.setOnClickListener {
+                errorLayout.visibility = View.GONE
+                viewModel.setAnimeDetailsById(args.animeId)
+            }
             viewModel.animeDetails.observe(viewLifecycleOwner) { resource ->
                 when (resource) {
                     is Resource.Error -> {
-
+                        errorLayout.visibility = View.VISIBLE
                     }
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        errorLayout.visibility = View.GONE
+                    }
                     is Resource.Success -> {
+                        errorLayout.visibility = View.GONE
                         animeDesc.text = resource.data?.synopsis
                         animeName.text = resource.data?.title
                         animeImage.load(resource.data?.images?.jpg?.largeImageUrl)

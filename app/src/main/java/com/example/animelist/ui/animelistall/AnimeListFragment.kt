@@ -23,7 +23,7 @@ class AnimeListFragment : Fragment(R.layout.fragment_anime_list) {
         val adapter = AdapterAnimeList(this::readMoreNavigateClicker)
         binding.apply {
             animeListView.adapter = adapter
-            replayBtn.setOnClickListener {
+            retryBtn.setOnClickListener {
                 errorLayout.visibility = View.GONE
                 viewModel.loadAnimeList()
             }

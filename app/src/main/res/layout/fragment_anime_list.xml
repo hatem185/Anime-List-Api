@@ -38,15 +38,15 @@
             android:gravity="center"
             android:maxWidth="185dp"
             android:text="abcdefghigklmnobqrstuvddddddddddddddddddddddddwxyz"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
-            android:id="@+id/replay_btn"
+            android:id="@+id/retry_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Button" />
+            android:text="Retry" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
