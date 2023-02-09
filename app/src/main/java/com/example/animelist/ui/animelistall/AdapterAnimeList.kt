@@ -63,7 +63,7 @@ class AdapterAnimeList(val readMoreNavigateClicker: (Int) -> Unit) :
                 tvAnimeName.text = item.title
                 tvEps.text = "episodes ${item.episodes}"
                 tvDesc.text = item.synopsis
-                tvImg.load(item.images.jpg.large_image_url)
+                tvImg.load(item.images.jpg.largeImageUrl)
             }
         }
     }

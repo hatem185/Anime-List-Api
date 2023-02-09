@@ -27,26 +27,22 @@ class AnimeListApiImpl(private val client: HttpClient) : AnimeListApi {
         }
     }
 
-    override suspend fun getAnimeListOne(animeId: Int): Anime {
+    override suspend fun getAnimeDetails(animeId: Int): Resource<Anime> {
         return try {
-            val rootanime: RootAnime =
-                client.get { url("${Routes.ANIME_BY_ID}/$animeId") }.body()
-            return rootanime.data
+            val animeDetails: RootAnime = client.get { url("${Routes.ANIME_BY_ID}/$animeId") }.body()
+            return Resource.Success(animeDetails.data)
         } catch (e: RedirectResponseException) {
             Log.e("AnimeApi", "3XX Error: ${e.message}")
-            Anime(0, Images(Jpg("")), 0, "", "")
+            Resource.Error(e.message)
         } catch (e: ClientRequestException) {
             Log.e("AnimeApi", "4XX Error: ${e.message}")
-            Anime(0, Images(Jpg("")), 0, "", "")
-
+            Resource.Error(e.message)
         } catch (e: ServerResponseException) {
             Log.e("AnimeApi", "5XX Error: ${e.message}")
-            Anime(0, Images(Jpg("")), 0, "", "")
-
+            Resource.Error(e.message)
         } catch (e: Exception) {
             Log.e("AnimeApi", "Error: ${e.message}")
-            Anime(0, Images(Jpg("")), 0, "", "")
-
+            Resource.Error(e.message!!)
         }
     }
 }

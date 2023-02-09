@@ -1,8 +1,10 @@
 package com.example.animelist.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Jpg(
-        val large_image_url: String
+    @SerialName("large_image_url")
+    val largeImageUrl: String
 )

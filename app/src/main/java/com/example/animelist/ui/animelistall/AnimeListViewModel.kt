@@ -15,24 +15,24 @@ class AnimeListViewModel : ViewModel() {
     private var animeListApi: AnimeListApi = AnimeListApiImpl(Provider.client)
     private val _animelist: MutableLiveData<Resource<List<Anime>>> =
         MutableLiveData(Resource.Loading())
+    private val _animeDetails: MutableLiveData<Resource<Anime>> =
+        MutableLiveData(Resource.Loading())
     val animelist: LiveData<Resource<List<Anime>>> get() = _animelist
+    val animeDetails: LiveData<Resource<Anime>> get() = _animeDetails
 
     init {
-        loadAnimeListFromApi()
+        loadAnimeList()
     }
 
-     fun loadAnimeListFromApi() {
+    fun loadAnimeList() {
         viewModelScope.launch {
             _animelist.value = animeListApi.getAnimeListAll()
         }
     }
 
-    fun setViewWithAnimeDataByIdFromApi(
-        animeId: Int,
-        setAnimeDetails: (anime: Anime) -> Unit
-    ) {
+    fun setAnimeDetailsById(animeId: Int) {
         viewModelScope.launch {
-            setAnimeDetails(animeListApi.getAnimeListOne(animeId))
+            _animeDetails.value = animeListApi.getAnimeDetails(animeId)
         }
     }
 

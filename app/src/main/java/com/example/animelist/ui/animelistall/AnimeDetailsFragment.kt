@@ -5,29 +5,38 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.animelist.R
 import com.example.animelist.databinding.FragmentAnimeDetailsBinding
+import com.example.animelist.util.Resource
 
 class AnimeDetailsFragment : Fragment(R.layout.fragment_anime_details) {
     private var _binding: FragmentAnimeDetailsBinding? = null
     private val binding get() = _binding!!
-    private val arges by navArgs<AnimeDetailsFragmentArgs>()
+    private val args by navArgs<AnimeDetailsFragmentArgs>()
     private val viewModel by viewModels<AnimeListViewModel>()
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAnimeDetailsBinding.bind(view)
-
+        viewModel.setAnimeDetailsById(args.animeId)
         binding.apply {
-            viewModel.setViewWithAnimeDataByIdFromApi(arges.animeId) { myAnime ->
-                animeDesc.text = myAnime.synopsis
-                animeName.text = myAnime.title
-                animeImage.load(myAnime.images.jpg.large_image_url)
-                animeEps.text = "episodes ${myAnime.episodes}"
+            viewModel.animeDetails.observe(viewLifecycleOwner) { resource ->
+                when (resource) {
+                    is Resource.Error -> {
+
+                    }
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        animeDesc.text = resource.data?.synopsis
+                        animeName.text = resource.data?.title
+                        animeImage.load(resource.data?.images?.jpg?.largeImageUrl)
+                        animeEps.text = "episodes ${resource.data?.episodes}"
+                    }
+                }
+
             }
         }
 

@@ -25,16 +25,16 @@ class AnimeListFragment : Fragment(R.layout.fragment_anime_list) {
             animeListView.adapter = adapter
             replayBtn.setOnClickListener {
                 errorLayout.visibility = View.GONE
-                viewModel.loadAnimeListFromApi()
+                viewModel.loadAnimeList()
             }
             viewModel.animelist.observe(viewLifecycleOwner) { resource ->
                 when (resource) {
-                    is Resource.Loading -> {
-                        errorLayout.visibility = View.GONE
-                    }
                     is Resource.Error -> {
                         errorLayout.visibility = View.VISIBLE
                         errorMsg.text = resource.message
+                    }
+                    is Resource.Loading -> {
+                        errorLayout.visibility = View.GONE
                     }
                     is Resource.Success -> {
                         errorLayout.visibility = View.GONE
