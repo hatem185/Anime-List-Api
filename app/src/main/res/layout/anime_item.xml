@@ -41,6 +41,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
+        android:maxLines="3"
         android:text="abcdefghigklmnopqrstuvwxyzabcdefghigklmnopqrstuvwxyzabcdefghigklmnopqrstuvwxyzabcdefghigklmnopqrstuvwxyzabcdefghigklmnopqrstuvwxyz"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/divider"

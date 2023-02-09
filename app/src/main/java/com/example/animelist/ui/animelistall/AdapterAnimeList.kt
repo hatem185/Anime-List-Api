@@ -3,27 +3,27 @@ package com.example.animelist.ui.animelistall
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.animelist.databinding.AnimeItemBinding
 import com.example.animelist.model.Anime
+import io.ktor.client.engine.*
 
-class AdapterAnimeList(val readMoreClicker: (Int) -> Unit) :
+class AdapterAnimeList(val readMoreNavigateClicker: (Int) -> Unit) :
     ListAdapter<Anime, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Anime>() {
 
             override fun areItemsTheSame(oldItem: Anime, newItem: Anime): Boolean {
-                return oldItem.mal_id == newItem.mal_id
+                return oldItem.malId == newItem.malId
             }
 
             override fun areContentsTheSame(oldItem: Anime, newItem: Anime): Boolean {
                 return oldItem.episodes == newItem.episodes || oldItem.title == newItem.title ||
                         oldItem.images == newItem.images || oldItem.synopsis == newItem.synopsis
-
-
             }
 
         }
@@ -45,17 +45,24 @@ class AdapterAnimeList(val readMoreClicker: (Int) -> Unit) :
 
     inner class ViewHolder(private val itemBinding: AnimeItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
+        init {
+            itemBinding.readMoreText.apply {
+                setOnClickListener {
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION)
+                        readMoreNavigateClicker(getItem(pos).malId)
+                    else
+                        Toast.makeText(context, "The Anime is not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         @SuppressLint("SetTextI18n")
         fun bind(item: Anime) {
             itemBinding.apply {
-                readMoreText.setOnClickListener {
-                    readMoreClicker(getItem(adapterPosition).mal_id)
-                }
                 tvAnimeName.text = item.title
                 tvEps.text = "episodes ${item.episodes}"
                 tvDesc.text = item.synopsis
-                tvDesc.maxLines = 3
                 tvImg.load(item.images.jpg.large_image_url)
             }
         }

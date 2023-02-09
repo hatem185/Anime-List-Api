@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.animelist.R
 import com.example.animelist.databinding.FragmentAnimeListBinding
+import com.example.animelist.util.Resource
 
 
 class AnimeListFragment : Fragment(R.layout.fragment_anime_list) {
@@ -19,17 +20,36 @@ class AnimeListFragment : Fragment(R.layout.fragment_anime_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAnimeListBinding.bind(view)
-        val adapter = AdapterAnimeList {animeId->
-            val action =
-                AnimeListFragmentDirections.actionAnimeListFragmentToAnimeDetailsFragment(animeId)
-            findNavController().navigate(action)
+        val adapter = AdapterAnimeList(this::readMoreNavigateClicker)
+        binding.apply {
+            animeListView.adapter = adapter
+            replayBtn.setOnClickListener {
+                errorLayout.visibility = View.GONE
+                viewModel.loadAnimeListFromApi()
+            }
+            viewModel.animelist.observe(viewLifecycleOwner) { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        errorLayout.visibility = View.GONE
+                    }
+                    is Resource.Error -> {
+                        errorLayout.visibility = View.VISIBLE
+                        errorMsg.text = resource.message
+                    }
+                    is Resource.Success -> {
+                        errorLayout.visibility = View.GONE
+                        adapter.submitList(resource.data)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
         }
-        binding.animeListView.adapter = adapter
-        viewModel.animelist.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
-            adapter.notifyDataSetChanged()
-        }
+    }
 
+    private fun readMoreNavigateClicker(animeId: Int) {
+        val action =
+            AnimeListFragmentDirections.actionAnimeListFragmentToAnimeDetailsFragment(animeId)
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

@@ -8,18 +8,20 @@ import com.example.animelist.model.Anime
 import com.example.animelist.model.AnimeListApi
 import com.example.animelist.model.AnimeListApiImpl
 import com.example.animelist.util.Provider
+import com.example.animelist.util.Resource
 import kotlinx.coroutines.launch
 
 class AnimeListViewModel : ViewModel() {
     private var animeListApi: AnimeListApi = AnimeListApiImpl(Provider.client)
-    private val _animelist: MutableLiveData<List<Anime>> = MutableLiveData()
-    val animelist: LiveData<List<Anime>> get() = _animelist
+    private val _animelist: MutableLiveData<Resource<List<Anime>>> =
+        MutableLiveData(Resource.Loading())
+    val animelist: LiveData<Resource<List<Anime>>> get() = _animelist
 
     init {
         loadAnimeListFromApi()
     }
 
-    private fun loadAnimeListFromApi() {
+     fun loadAnimeListFromApi() {
         viewModelScope.launch {
             _animelist.value = animeListApi.getAnimeListAll()
         }
