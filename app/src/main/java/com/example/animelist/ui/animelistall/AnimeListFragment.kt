@@ -1,15 +1,16 @@
 package com.example.animelist.ui.animelistall
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.animelist.R
 import com.example.animelist.databinding.FragmentAnimeListBinding
 import com.example.animelist.util.Resource
-
 
 class AnimeListFragment : Fragment(R.layout.fragment_anime_list) {
     private var _binding: FragmentAnimeListBinding? = null

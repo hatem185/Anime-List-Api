@@ -1,5 +1,6 @@
 package com.example.animelist.ui.animelistall
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.animelist.model.Anime
 import com.example.animelist.model.AnimeListApi
 import com.example.animelist.model.AnimeListApiImpl
+import com.example.animelist.ui.MainActivity
 import com.example.animelist.util.Provider
 import com.example.animelist.util.Resource
 import kotlinx.coroutines.launch

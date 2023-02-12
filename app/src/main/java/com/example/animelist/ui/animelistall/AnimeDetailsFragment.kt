@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.animelist.R
 import com.example.animelist.databinding.FragmentAnimeDetailsBinding
+import com.example.animelist.model.Routes
 import com.example.animelist.util.Resource
 
 class AnimeDetailsFragment : Fragment(R.layout.fragment_anime_details) {
@@ -31,6 +32,7 @@ class AnimeDetailsFragment : Fragment(R.layout.fragment_anime_details) {
                 when (resource) {
                     is Resource.Error -> {
                         errorLayout.visibility = View.VISIBLE
+                        errorMsg.text = resource.message
                     }
                     is Resource.Loading -> {
                         errorLayout.visibility = View.GONE
@@ -40,7 +42,8 @@ class AnimeDetailsFragment : Fragment(R.layout.fragment_anime_details) {
                         animeDesc.text = resource.data?.synopsis
                         animeName.text = resource.data?.title
                         animeImage.load(resource.data?.images?.jpg?.largeImageUrl)
-                        animeEps.text = "episodes ${resource.data?.episodes}"
+                        animeEps.text ="episodes "+ if (resource.data?.episodes == -1) "incomplete"
+                        else resource.data?.episodes.toString()
                     }
                 }
 

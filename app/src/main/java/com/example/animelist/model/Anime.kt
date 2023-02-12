@@ -9,6 +9,6 @@ data class Anime(
     val images: Images,
     @SerialName("mal_id")
     val malId: Int,
-    val title: String,
-    val synopsis: String
+    val synopsis: String,
+    val title: String
 )

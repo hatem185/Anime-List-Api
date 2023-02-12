@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.animelist.databinding.AnimeItemBinding
 import com.example.animelist.model.Anime
+import com.example.animelist.model.Routes
 import io.ktor.client.engine.*
 
 class AdapterAnimeList(val readMoreNavigateClicker: (Int) -> Unit) :
@@ -61,10 +62,12 @@ class AdapterAnimeList(val readMoreNavigateClicker: (Int) -> Unit) :
         fun bind(item: Anime) {
             itemBinding.apply {
                 tvAnimeName.text = item.title
-                tvEps.text = "episodes ${item.episodes}"
+                tvEps.text ="episodes "+ if (item.episodes == -1) "incomplete"
+                else item.episodes.toString()
                 tvDesc.text = item.synopsis
                 tvImg.load(item.images.jpg.largeImageUrl)
             }
         }
+
     }
 }

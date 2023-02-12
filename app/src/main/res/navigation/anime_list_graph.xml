@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/animeDetailsFragment"
         android:name="com.example.animelist.ui.animelistall.AnimeDetailsFragment"
-        android:label="fragment_anime_details"
-        tools:layout="@layout/fragment_anime_details" >
+        android:label="Anime Details"
+        tools:layout="@layout/fragment_anime_details">
         <argument
             android:name="animeId"
             app:argType="integer" />
@@ -17,8 +17,8 @@
     <fragment
         android:id="@+id/animeListFragment"
         android:name="com.example.animelist.ui.animelistall.AnimeListFragment"
-        android:label="fragment_anime_list"
-        tools:layout="@layout/fragment_anime_list" >
+        android:label="Top Anime"
+        tools:layout="@layout/fragment_anime_list">
         <action
             android:id="@+id/action_animeListFragment_to_animeDetailsFragment"
             app:destination="@id/animeDetailsFragment" />
